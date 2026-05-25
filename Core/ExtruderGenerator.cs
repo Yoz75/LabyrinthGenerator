@@ -89,7 +89,7 @@ internal class ExtruderGenerator : ILabyrinthGenerator
         {
             for(int x = 0; x < Width; x++)
             {
-                if(Map[x, y] == ExtruderCellType.None)
+                if(Map[x, y] == ExtruderCellType.None || Map[x, y] == ExtruderCellType.UnbreakableWall)
                 {
                     Map[x, y] = ExtruderCellType.Wall;
                 }

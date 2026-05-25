@@ -23,8 +23,7 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
         [Description("The count of algorithm samples (if supported)")]
         public int Samples{ get; init; } = 16;
 
-
-        [CommandOption("--type <STRING>")]
+        [CommandOption("--type <\"extruder\"|[more coming soon...]>")]
         [Description("The type of the generator")]
         public AvailableGenerators GeneratorType { get; init; } = AvailableGenerators.Extruder;
     }

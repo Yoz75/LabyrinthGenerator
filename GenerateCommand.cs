@@ -19,9 +19,9 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
         [Description("The height of the labyrinth")]
         public int Height { get; init; } = 16;
 
-        [CommandOption("-s|--samples <VALUE>")]
-        [Description("The count of algorithm samples (if supported)")]
-        public int Samples{ get; init; } = 16;
+        [CommandOption("-c|--complexity <VALUE>")]
+        [Description("The \"complexity\" of the labyrinth. The more this value, the more hard solution labyrinth has")]
+        public int Complexity{ get; init; } = 16;
 
         [CommandOption("--type <\"extruder\"|[more coming soon...]>")]
         [Description("The type of the generator")]
@@ -40,7 +40,7 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
 
         ILabyrinthGenerator generator = settings.GeneratorType switch
         {
-            AvailableGenerators.Extruder => new ExtruderGenerator(settings.Width, settings.Height, settings.Samples),
+            AvailableGenerators.Extruder => new ExtruderGenerator(settings.Width, settings.Height, settings.Complexity),
             _ => throw new ArgumentException("Unknown generator type!")
         };
 

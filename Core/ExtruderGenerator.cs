@@ -10,31 +10,8 @@ internal class ExtruderGenerator : ILabyrinthGenerator
 {
     private struct Dummy;
 
-    private struct Position
-    {
-        public int X, Y;
-
-        public Position(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public static bool operator ==(Position left, Position right)
-        {
-            return left.X == right.X && left.Y == right.Y;
-        }
-
-        public static bool operator !=(Position left, Position right)
-        {
-            return !(left == right);
-        }
-    }
-
-    private struct Neighbors
-    {
-        public Position Upper, Right, Down, Left;
-    }
+    private record struct Position(int X, int Y);
+    private record struct Neighbors(Position Upper, Position Right, Position Down, Position Left);
 
     private enum ExtruderCellType : byte
     {
@@ -67,8 +44,6 @@ internal class ExtruderGenerator : ILabyrinthGenerator
 
         AddOuterBorders();
         GenerateMainPath();
-
-
 
         for(int i = 0; i < DeadEndSamples; i++)
         {

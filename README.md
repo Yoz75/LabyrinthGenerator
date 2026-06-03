@@ -1,4 +1,5 @@
 # Labyrinth Generator
+Update: run the labyrinth generation using "lbgen run" command!
 <img width="893" height="630" alt="изображение" src="https://github.com/user-attachments/assets/e5ef18ab-9ad0-4425-9f3b-b77801a3b7b3" />
 <img width="871" height="636" alt="изображение" src="https://github.com/user-attachments/assets/fc70605c-252a-4b7b-ad52-f1b99a8f56e5" />
 <img width="601" height="342" alt="изображение" src="https://github.com/user-attachments/assets/b31c0de9-5560-4ba5-89fb-5f44633ba523" />

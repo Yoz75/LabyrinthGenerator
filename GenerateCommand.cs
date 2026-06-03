@@ -23,9 +23,9 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
         [Description("The \"complexity\" of the labyrinth. The more this value, the more hard solution labyrinth has")]
         public int Complexity{ get; init; } = 16;
 
-        [CommandOption("--type <\"extruder\"|[more coming soon...]>")]
+        [CommandOption("--type <\"extruder\"|\"mazece\"|[more coming soon...]>")]
         [Description("The type of the generator")]
-        public AvailableGenerators GeneratorType { get; init; } = AvailableGenerators.Extruder;
+        public AvailableGenerators GeneratorType { get; init; } = AvailableGenerators.MazeCE;
     }
 
     protected override int Execute(CommandContext context, Settings settings, CancellationToken cancellationToken)
@@ -41,12 +41,11 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
         ILabyrinthGenerator generator = settings.GeneratorType switch
         {
             AvailableGenerators.Extruder => new ExtruderGenerator(settings.Width, settings.Height, settings.Complexity),
+            AvailableGenerators.MazeCE => new MazeAutomatonGenerator((settings.Width, settings.Height)),
             _ => throw new ArgumentException("Unknown generator type!")
         };
 
-        ILabyrinthRenderer renderer = new AnsiConsoleRenderer();
-
-
+        AnsiConsoleRenderer renderer = new();
         var labyrinth = generator.Generate();
         renderer.Render(labyrinth);
         return 0;

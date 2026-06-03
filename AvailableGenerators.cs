@@ -3,5 +3,6 @@
 internal enum AvailableGenerators
 {
     None = 0,
-    Extruder
+    Extruder,
+    MazeCE
 }

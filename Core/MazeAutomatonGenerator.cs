@@ -12,12 +12,14 @@ internal class MazeAutomatonGenerator : ILabyrinthGenerator
 {
     private readonly (int, int) Resolution;
     private readonly Cell PathType, WallType;
-    
+    private readonly CellTypeRegistrar Registrar;
     public MazeAutomatonGenerator((int, int) resolution)
     {
         Resolution = resolution;
-        PathType = CellTypeRegistrar.Register();
-        WallType = CellTypeRegistrar.Register();
+        Registrar = new();
+
+        PathType = Registrar.RegisterType();
+        WallType = Registrar.RegisterType();
     }
 
     public CellType[,] Generate()
@@ -35,13 +37,15 @@ internal class MazeAutomatonGenerator : ILabyrinthGenerator
         return resultField;
     }
 
-    private static CellType[,] GetField(Field field)
+    private CellType[,] GetField(Field field)
     {
         (int, int) start = field.MyBounds.ValidStart;
         (int, int) end = field.MyBounds.ValidEnd;
 
         // TODO: when I'll release CLETKI 1.1.0 use CellTypeRegister.TypesCount
-        CellType[] automaton2LabyrinthTypeMap = [CellType.None, CellType.None, CellType.Path, CellType.Wall];
+        CellType[] automaton2LabyrinthTypeMap = new CellType[Registrar.ExistingTypesCount];
+        automaton2LabyrinthTypeMap[PathType.Type] = CellType.Path;
+        automaton2LabyrinthTypeMap[WallType.Type] = CellType.Wall;
 
         var resultField = new CellType[end.Item1 - 1, end.Item2 - 1];
         for(int y = start.Item2; y < end.Item2; y++)
@@ -64,8 +68,7 @@ internal class MazeAutomatonGenerator : ILabyrinthGenerator
             new StartTypeWrapperRule<NearRule>(PathType, new(WallType, WallType, 3)),
             new StartTypeWrapperRule<NearRule>(WallType, new(WallType, PathType, 0, 6, 7, 8)));
 
-        // TODO: REPLACE THIS WITH Cell.Border WHEN I'LL RELEASE 1.1.0
-        AutomatonStage cleanupStage = new(1, new NearRule(new Cell { Type = Cell.InvalidType }, WallType, 1, 2, 3, 4, 5, 6, 7, 8));
+        AutomatonStage cleanupStage = new(1, new NearRule(Cell.Invalid, WallType, 1, 2, 3, 4, 5, 6, 7, 8));
 
         Queue<IAutomatonStage> stages = [];
         stages.Enqueue(seedWallsStage);

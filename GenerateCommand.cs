@@ -25,7 +25,7 @@ internal class GenerateCommand : Command<GenerateCommand.Settings>
 
         [CommandOption("--type <\"extruder\"|\"mazece\"|[more coming soon...]>")]
         [Description("The type of the generator")]
-        public AvailableGenerators GeneratorType { get; init; } = AvailableGenerators.MazeCE;
+        public AvailableGenerators GeneratorType { get; init; } = AvailableGenerators.Extruder;
     }
 
     protected override int Execute(CommandContext context, Settings settings, CancellationToken cancellationToken)
